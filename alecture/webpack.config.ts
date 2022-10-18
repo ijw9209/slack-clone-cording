@@ -1,8 +1,8 @@
 import path from 'path';
+//ReactRefreshWebpackPlugin의 주석을 풀어준다.
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack, { Configuration as WebpackConfiguration } from "webpack";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -47,6 +47,7 @@ const config: Configuration = {
             '@babel/preset-react',
             '@babel/preset-typescript',
           ],
+          //env 부분 추가
           env: {
             development: {
               plugins: [require.resolve('react-refresh/babel')],
@@ -62,6 +63,7 @@ const config: Configuration = {
     ],
   },
   plugins: [
+    //플러그인 부분 주석풀기
     new ForkTsCheckerWebpackPlugin({
       async: false,
       // eslint: {
@@ -80,23 +82,16 @@ const config: Configuration = {
     port: 3090,
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
-    proxy: {
-      '/api/': {
-        target: 'http://localhost:3095',
-        changeOrigin: true,
-      },
-    },
   },
 };
 
 if (isDevelopment && config.plugins) {
+
+  //이부분에 주석되어 있는 것도 풀어준다.
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   config.plugins.push(new ReactRefreshWebpackPlugin());
-  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: true }));
 }
 if (!isDevelopment && config.plugins) {
-  config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
-  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
 }
 
 export default config;
