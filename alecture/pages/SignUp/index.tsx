@@ -122,23 +122,21 @@
 import React, {useCallback, useState} from "react";
 import { Header, Form, Label, Input, Button, LinkContainer, Error } from './styles';
 import { Link } from 'react-router-dom';
+import useInput from '@hooks/useInput';
+
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [nickname, setNickName] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  //단순한 input 중복
+  const [email, onChangeEmail] = useInput('');
+  const [nickname,onChangeNickname] = useInput('');
+
+
+  //커스터 마이징이 필요할 때 가운데를 빈 값으로 두면된다.
+  const [password, ,setPassword] = useInput('');
+  const [passwordCheck, ,setPasswordCheck] = useInput('');
 
   //비밀번호 , 비밀번호확인 같은지 여부 판단
   const [mismatchError, setMissmatchError] = useState(false);
 
-
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  },[]);
-
-  const onChangeNickname = useCallback((e) => {
-    setNickName(e.target.value);
-  },[]);
 
   //비밀번호 변경 함수
   const onChangePassword = useCallback((e) => {
@@ -156,6 +154,7 @@ const SignUp = () => {
     e.preventDefault();
    
     if(mismatchError === false) {
+      console.log(email,email, nickname, password, passwordCheck )
       console.log('서버로 회원가입하기');
     }
   },[email, nickname, password, passwordCheck, mismatchError]);
